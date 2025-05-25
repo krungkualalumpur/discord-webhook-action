@@ -19,7 +19,7 @@ runs:
         if [ -n "${{ inputs.message }}" ]; then 
           BODY+='"content":"'"${{ inputs.message }}"'",'
         else 
-          BODY+='"content": "'"${{ github.actor }}"' triggered '"${{ github.event_name }}"' event",'
+          BODY+='"content": "'"${{ github.actor }}"' triggered '"${{ github.event_name }}"' event to **'"${{ github.ref_name }}"'** in [${{ github.repository }}](https://github.com/${{ github.repository }})",'
         fi
 
         BODY+='"avatar_url": "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_640.png"'
