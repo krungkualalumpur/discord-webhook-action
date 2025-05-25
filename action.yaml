@@ -1,0 +1,18 @@
+name: "Webhook action"
+inputs:
+  url: 
+    description: "The webhook URL"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: "actions/checkout@v4"
+    - name: Fire Webhook
+      run: |
+        BODY='{
+          "username": "'"${{ github.actor }}"'", 
+          "content": "'"${{ github.actor }}"' triggered '"${{ github.event_name }}"'"
+        }'
+        WEBHOOK_URL="${{ inputs.url }}"
+        curl -H "Content-Type: application/json" -d "$BODY" "$WEBHOOK_URL"
