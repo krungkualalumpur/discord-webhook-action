@@ -16,3 +16,4 @@ runs:
         }'
         WEBHOOK_URL="${{ inputs.url }}"
         curl -H "Content-Type: application/json" -d "$BODY" "$WEBHOOK_URL"
+        
