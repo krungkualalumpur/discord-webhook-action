@@ -11,8 +11,9 @@ runs:
     - name: Fire Webhook
       run: |
         BODY='{
-          "username": "'"${{ github.actor }}"'", 
-          "content": "'"${{ github.actor }}"' triggered '"${{ github.event_name }}"'"
+          "username": "Github Repo Bot", 
+          "content": "'"${{ github.actor }}"' triggered '"${{ github.event_name }}"' event",
+          "avatar_url": "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_640.png"
         }'
         WEBHOOK_URL="${{ inputs.url }}"
         curl -H "Content-Type: application/json" -d "$BODY" "$WEBHOOK_URL"
