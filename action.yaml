@@ -3,6 +3,9 @@ inputs:
   url: 
     description: "The webhook URL"
     required: true
+  message: 
+    description: "The optional content that is about to be sent"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -10,11 +13,18 @@ runs:
       uses: "actions/checkout@v4"
     - name: Fire Webhook
       run: |
-        BODY='{
-          "username": "Github Repo Bot", 
-          "content": "'"${{ github.actor }}"' triggered '"${{ github.event_name }}"' event",
-          "avatar_url": "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_640.png"
-        }'
+        BODY='{'
+        BODY+='"username": "Github Repo Bot",'
+
+        if [ -n "${{ inputs.message }}" ]; then 
+          BODY+='"content":"'"${{ inputs.message }}"'",'
+        else 
+          BODY+='"content": "'"${{ github.actor }}"' triggered '"${{ github.event_name }}"' event",'
+        fi
+
+        BODY+='"avatar_url": "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_640.png"'
+        BODY+='}'
+
         WEBHOOK_URL="${{ inputs.url }}"
         curl -H "Content-Type: application/json" -d "$BODY" "$WEBHOOK_URL"
       shell: bash
